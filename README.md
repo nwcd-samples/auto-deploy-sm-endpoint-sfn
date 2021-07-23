@@ -1,9 +1,9 @@
 # 使用AWS Step Functions在Sagemaker中持续部署TensorFlow模型
 
 
-在EC2中执行TensorFlow模型训练，上传训练好的模型文件到S3，在Sagemaker中进行部署，部署完成后得到一个Sagemaker Endpoint，调用Endpoint进行预测。
+在 EC2 中执行 TensorFlow 模型训练，上传训练好的模型文件到 S3，在 Sagemaker 中进行部署，部署完成后得到一个 Sagemaker Endpoint，调用 Endpoint 进行预测。
 
-需求：每天会retrain一次TensorFlow模型，需要自动进行重新部署并且更新Sagemaker Endpoint，并保持endpoint不变，更新的过程中Endpoint需保持可用。
+对于定时 retrain 模型的场景，比如每天 retrain 一次 TensorFlow 模型，需要自动进行重新部署并且更新Sagemaker Endpoint，并保持 endpoint 不变，更新的过程中 Endpoint 需保持可用。本文基于此需求使用 Step Functions Data Science SDK 开发了一个在 Sagemaker 中执行 TensorFlow 模型自动部署的方案。
 
 
 
@@ -13,17 +13,9 @@
 
 创建给Sagemaker Notebook使用的IAM role，名为“AmazonSageMaker-ExecutionRole-StepFunctions”，赋予 “AWSStepFunctionsFullAccess”, “AmazonS3FullAcces”两个权限Policy，在创建Notebook的时候选择该Role，或者给已经创建好的Role添加权限。
 
-![img](file:////Users/beibeizh/Library/Group%20Containers/UBF8T346G9.Office/TemporaryItems/msohtmlclip/clip_image001.png)
-
- 
-
 2）确认Step functions具有Sagemaker权限
 
 创建名为“ StepFunctionsWorkflowExecutionRole”的IAM role，并附加“ AmazonS3FullAccess” “ AmazonSageMakerFullAccess”两个策略。
-
-![img](file:////Users/beibeizh/Library/Group%20Containers/UBF8T346G9.Office/TemporaryItems/msohtmlclip/clip_image001.png)
-
- 
 
 3）确保进行模型训练的EC2具有Step Functions权限
 
@@ -37,26 +29,20 @@
 
 创建好笔记本实例后选择 “打开JupyterLab”，打开Terminal。
 
-![img](file:////Users/beibeizh/Library/Group%20Containers/UBF8T346G9.Office/TemporaryItems/msohtmlclip/clip_image002.png)
-
 在终端中执行以下命令：
 
+```
 cd SageMaker
  wget https://becky-open-data.s3-ap-northeast-1.amazonaws.com/auto_deploy_sm_endpoint_sfn.ipynb
+```
 
- 
-
-打开名为 “auto_deploy_sm_endpoint_sfn”的笔记本，依次执行每个单元格，记得替换笔记本中的S3 bucket name 以及 workflow_execution_role 的ARN。
-
- 
+ 打开名为 “auto_deploy_sm_endpoint_sfn”的笔记本，依次执行每个单元格，记得替换笔记本中的S3 bucket name 以及 workflow_execution_role 的ARN。
 
 执行完成后，进入 Step Fucntions Console，可以看到创建好了一个状态机，点击进入。
 
 ![img](file:////Users/beibeizh/Library/Group%20Containers/UBF8T346G9.Office/TemporaryItems/msohtmlclip/clip_image003.png)
 
- 
-
-点击 “定义”，可以看到状态机的定义，左侧是生成的配置项，右侧是状态机工作流的图像呈现。
+ 点击 “定义”，可以看到状态机的定义，左侧是生成的配置项，右侧是状态机工作流的图像呈现。
 
 ![img](file:////Users/beibeizh/Library/Group%20Containers/UBF8T346G9.Office/TemporaryItems/msohtmlclip/clip_image004.png)
 
@@ -112,12 +98,8 @@ wget https://becky-open-data.s3-ap-northeast-1.amazonaws.com/excute_auto_deploy_
 
  ## 参考链接
 
-AWS Step Functions 开发者文档：https://docs.aws.amazon.com/zh_cn/step-functions/latest/dg/welcome.html
-
-Step functions python sdk: https://aws-step-functions-data-science-sdk.readthedocs.io/en/latest/sagemaker.html
-
-AWS Sagemaker 模型部署开发者文档：https://docs.aws.amazon.com/zh_cn/sagemaker/latest/dg/how-it-works-deployment.html#how-it-works-hosting
-
-Sagemaker python sdk: https://sagemaker.readthedocs.io/en/stable/frameworks/tensorflow/index.html
-
-Boto3 sdk: https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/sagemaker.html
+- AWS Step Functions 开发者文档：https://docs.aws.amazon.com/zh_cn/step-functions/latest/dg/welcome.html
+- Step functions python sdk: https://aws-step-functions-data-science-sdk.readthedocs.io/en/latest/sagemaker.html
+- AWS Sagemaker 模型部署开发者文档：https://docs.aws.amazon.com/zh_cn/sagemaker/latest/dg/how-it-works-deployment.html#how-it-works-hosting
+- Sagemaker python sdk: https://sagemaker.readthedocs.io/en/stable/frameworks/tensorflow/index.html
+- Boto3 sdk: https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/sagemaker.html
