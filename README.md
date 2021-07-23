@@ -39,12 +39,12 @@ cd SageMaker
  打开名为 “auto_deploy_sm_endpoint_sfn”的笔记本，依次执行每个单元格，记得替换笔记本中的S3 bucket name 以及 workflow_execution_role 的ARN。
 
 执行完成后，进入 Step Fucntions Console，可以看到创建好了一个状态机，点击进入。
-
-![img](file:////Users/beibeizh/Library/Group%20Containers/UBF8T346G9.Office/TemporaryItems/msohtmlclip/clip_image003.png)
+images/Picture1.png
+![image](https://github.com/nwcd-samples/auto-deploy-sm-endpoint-sfn/blob/main/images/Picture1.png)
 
  点击 “定义”，可以看到状态机的定义，左侧是生成的配置项，右侧是状态机工作流的图像呈现。
 
-![img](file:////Users/beibeizh/Library/Group%20Containers/UBF8T346G9.Office/TemporaryItems/msohtmlclip/clip_image004.png)
+![img](https://github.com/nwcd-samples/auto-deploy-sm-endpoint-sfn/blob/main/images/Picture2.png)
 
  
 
@@ -60,7 +60,7 @@ wget https://becky-open-data.s3-ap-northeast-1.amazonaws.com/excute_auto_deploy_
 
  修改脚本中 Step Functions 的 ARN 为你自己的ARN，可以在上传模型文件到S3成功后运行该python脚本，每次执行都会调用一次Step Functions状态机，并传入参数。每一次运行完后可以看到状态机下面有一条执行记录。
 
-![img](file:////Users/beibeizh/Library/Group%20Containers/UBF8T346G9.Office/TemporaryItems/msohtmlclip/clip_image005.png)
+![img](https://github.com/nwcd-samples/auto-deploy-sm-endpoint-sfn/blob/main/images/Picture3.png)
 
  
 
@@ -68,31 +68,31 @@ wget https://becky-open-data.s3-ap-northeast-1.amazonaws.com/excute_auto_deploy_
 
 点击执行，可以看到各个步骤的执行状态，以下是第一次执行该状态机的结果，第一次执行时需要create endpoint。
 
-![img](file:////Users/beibeizh/Library/Group%20Containers/UBF8T346G9.Office/TemporaryItems/msohtmlclip/clip_image005.png)
+![img](https://github.com/nwcd-samples/auto-deploy-sm-endpoint-sfn/blob/main/images/Picture4.png)
 
-![img](file:////Users/beibeizh/Library/Group%20Containers/UBF8T346G9.Office/TemporaryItems/msohtmlclip/clip_image006.png)
+![img](https://github.com/nwcd-samples/auto-deploy-sm-endpoint-sfn/blob/main/images/Picture5.png)
 
 以下是第二次执行该状态机的结果，第二次执行时需要update endpoint。
 
-![img](file:////Users/beibeizh/Library/Group%20Containers/UBF8T346G9.Office/TemporaryItems/msohtmlclip/clip_image007.png)
+![img](https://github.com/nwcd-samples/auto-deploy-sm-endpoint-sfn/blob/main/images/Picture6.png)
 
  
 
 执行完成后可以前往 Sagemaker Console查看状态机的输出，可以看到保存的模型。
 
-![img](file:////Users/beibeizh/Library/Group%20Containers/UBF8T346G9.Office/TemporaryItems/msohtmlclip/clip_image008.png)
+![img](https://github.com/nwcd-samples/auto-deploy-sm-endpoint-sfn/blob/main/images/Picture7.png)
 
  
 
 以及对应模型响应的终端节点配置。
 
-![img](file:////Users/beibeizh/Library/Group%20Containers/UBF8T346G9.Office/TemporaryItems/msohtmlclip/clip_image009.png)
+![img](https://github.com/nwcd-samples/auto-deploy-sm-endpoint-sfn/blob/main/images/Picture8.png)
 
  
 
 以及对应的Endpoint，模型更新后保持同一个Endpoint不变。
 
-![img](file:////Users/beibeizh/Library/Group%20Containers/UBF8T346G9.Office/TemporaryItems/msohtmlclip/clip_image010.png)
+![img](https://github.com/nwcd-samples/auto-deploy-sm-endpoint-sfn/blob/main/images/Picture9.png)
 
  
 
